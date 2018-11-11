@@ -1,0 +1,20 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "plugins": [
+    "prettier"
+  ],
+  "extends": [
+    "plugin:prettier/recommended",
+    "eslint:recommended"
+  ],
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": ["warn"],
+    "no-trailing-spaces": "warn",
+    "quote-props": ["error", "as-needed"]
+  }
+}

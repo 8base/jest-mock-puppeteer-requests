@@ -1,0 +1,16 @@
+{
+  "prtivate": true,
+  "scripts": {
+    "eslint": "eslint packages/*/src/**",
+    "test": "./bin/test.sh"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.9.0",
+    "eslint-config-prettier": "^3.3.0",
+    "eslint-plugin-prettier": "^3.0.0",
+    "lerna": "^3.4.3",
+    "prettier": "^1.15.2"
+  },
+  "license": "MIT"
+}
