@@ -1,0 +1,7 @@
+2018-11-11T21:12:11.066Z - debug: yerna: (yarn wrapper) child pid 16429 exited with code 0 and signal null
+2018-11-11T21:13:03.268Z - debug: yerna: (yarn wrapper) child pid 16469 exited with code 0 and signal null
+2018-11-11T21:13:03.270Z - debug: yerna: nothing in the way of a symlink at /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests-graphql/node_modules/jest-mock-puppeteer-requests
+2018-11-11T21:13:03.270Z - debug: yerna: symlinking /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests-graphql/node_modules/jest-mock-puppeteer-requests to /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests
+2018-11-12T05:10:32.345Z - debug: yerna: (yarn wrapper) child pid 17849 exited with code 0 and signal null
+2018-11-12T05:10:32.346Z - debug: yerna: removing existing symlink at /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests-graphql/node_modules/jest-mock-puppeteer-requests
+2018-11-12T05:10:32.346Z - debug: yerna: symlinking /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests-graphql/node_modules/jest-mock-puppeteer-requests to /Users/zouxuoz/git/jest-mock-puppeteer-requests/packages/jest-mock-puppeteer-requests

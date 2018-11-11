@@ -1,0 +1,22 @@
+language: node_js
+node_js:
+- 9
+
+install:
+- yarn
+- lerna bootstrap
+- lerna run build
+
+script:
+- yarn eslint
+- yarn test
+
+deploy:
+  provider: npm
+  email: zouxuoz@gmail.com
+  skip_cleanup: true
+  script: lerna publish from-git
+  api_key:
+    secure: s6Nn+xWfPZ59HsX+tp3WVdC4Npbbea5IoD4cA7zUhkFjNMHnkHYoCKvpJl5+DNSaisThoLOmkp/0IYZNFRPno9nnCbgvuK1IrMxGUGpqNRv0zu/pVgeU90FbUeyyauUCK8zdvPx5dqQRkIT16W54x5oPI/lzBiqTBBOCw27LSWyNtJo/it/ca3GxGRveBKg8Qz3Qm88tJ7ROVzEu6fLaqIPPfMyOtR3/JfSP6vHpYsIi+WER5CL8itt1ppEbsMa4qDU+Ps9sytSENRB2sWQhqXYqVf3zcUJrjrPT95kHZMxzdNimkAuP+MDRDORFUCGnepaSCEej7I5EbtUsemj1ZuDPrWI/g2FWKvMF9Pkv/NEbhH9s2afx5GutV2oQcf4MRqKG5KVqEonzwztlECwaSMEdqGBP0+YxMkMUvUr2IkGZcLH2AAyynrLIJIij/uSKB3lou8cKnLLJjm/dV9LX64HXQ7r+8KjtIqNcVQG97xCOKv/JVHwkkJjDAIUE3rVCD/dItpPwz6DpLr0siclh2Tdo948kOWnthObDlM1sQfEJHJx7SHMOSYvybwJeV/4ge9lGxyOeuP5HHB0BTy8dyTZz4qRbUTmbCz8pLb/+9uMl5LlX66Bf+JNHG6vgUT9v3h/t8uPLY+QpR3yc/lL+T7pTm06VNlic51qJ6/dFeZw=
+  on:
+    branch: master
