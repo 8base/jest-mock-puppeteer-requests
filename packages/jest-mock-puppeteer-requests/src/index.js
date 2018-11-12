@@ -25,9 +25,9 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
         const response = getResponse(loadedMocks, request);
 
         if (response) {
-          request.respond(response);
+          return request.respond(response);
         } else {
-          console.warn(`Can't find mock reponse for request: ${request.postData()}`);
+          console.warn(`Can't find mock response for request: ${request.postData()}`);
         }
       }
 
