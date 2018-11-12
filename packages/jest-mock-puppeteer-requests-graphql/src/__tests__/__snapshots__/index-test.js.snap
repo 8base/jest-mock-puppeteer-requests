@@ -11,7 +11,19 @@ Array [
 ]
 `;
 
-exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 2`] = `undefined`;
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 2`] = `
+Array [
+  Array [
+    Object {
+      "body": "[{\\"data\\":{\\"field\\":\\"foo\\"}}]",
+      "content": "application/json",
+      "headers": Object {
+        "Access-Control-Allow-Origin": "*",
+      },
+    },
+  ],
+]
+`;
 
 exports[`As a developer, when I execute it in update mode, it should save real request to the mocks. 1`] = `
 Array [

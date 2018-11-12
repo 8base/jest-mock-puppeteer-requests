@@ -1,11 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 1`] = `undefined`;
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 1`] = `
+Array [
+  Array [
+    Object {
+      "data": Object {
+        "field": "foo",
+      },
+    },
+  ],
+]
+`;
 
 exports[`As a developer, when I execute it in update mode, it should save real request to the mocks. 1`] = `
 Array [
-  "__request_mocks__/qwer-test-name-mock-json",
-  "{
+  Array [
+    "__request_mocks__/qwer-test-name-mock-json",
+    "{
   \\"QueryName\\": [
     {
       \\"request\\": {
@@ -21,5 +32,6 @@ Array [
     }
   ]
 }",
+  ],
 ]
 `;

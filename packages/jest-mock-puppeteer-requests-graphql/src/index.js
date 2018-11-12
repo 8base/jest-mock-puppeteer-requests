@@ -1,17 +1,15 @@
 import * as R from 'ramda';
 
-export const getResponse = (mocks, request) => {
-  getResponse.counters = getResponse.counters || {};
-
+export const getResponse = (state, request) => {
   let requestData = JSON.parse(request.postData());
 
   requestData = Array.isArray(requestData) ? requestData : [requestData];
 
-  if (requestData.every(({ operationName }) => mocks[operationName])) {
+  if (requestData.every(({ operationName }) => state.mocks[operationName])) {
     let response = requestData.map(req => {
-      const index = ++getResponse.counters[req.operationName] || (getResponse.counters[req.operationName] = 0);
+      const index = ++state.counters[req.operationName] || (state.counters[req.operationName] = 0);
 
-      const mock = mocks[req.operationName][index];
+      const mock = R.path([req.operationName, index], state.mocks);
 
       expect(R.omit(['index'], mock.request)).toEqual(req);
 
@@ -32,7 +30,7 @@ export const getResponse = (mocks, request) => {
   }
 };
 
-export const saveMock = async (mocks, response) => {
+export const saveMock = async (state, response) => {
   const request = await response.request();
 
   let requestData = JSON.parse(request.postData());
@@ -42,12 +40,12 @@ export const saveMock = async (mocks, response) => {
   requestData.forEach((request, i) => {
     const { operationName } = request;
 
-    mocks[operationName] = mocks[operationName] || [];
+    state.mocks[operationName] = state.mocks[operationName] || [];
 
-    requestData[i].index = mocks[operationName].length;
+    requestData[i].index = state.mocks[operationName].length;
 
-    mocks[operationName] = mocks[operationName] = [
-      ...mocks[operationName],
+    state.mocks[operationName] = state.mocks[operationName] = [
+      ...state.mocks[operationName],
       {
         request,
       },
@@ -61,8 +59,8 @@ export const saveMock = async (mocks, response) => {
   responseData.forEach((data, i) => {
     const { operationName, index } = requestData[i];
 
-    mocks[operationName][index].response = data;
+    state.mocks[operationName][index].response = data;
   });
 
-  return mocks;
+  return state;
 };

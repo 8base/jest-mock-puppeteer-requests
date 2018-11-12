@@ -138,5 +138,7 @@ it('As a developer, when I execute it in mock mode, it should replace real reque
   global.expect = intialExpect;
 
   expect(expectCalls.mock.calls).toMatchSnapshot();
-  expect(fs.writeFileSync.mock.calls[0]).toMatchSnapshot();
+
+  expect(request.continue).not.toHaveBeenCalled();
+  expect(request.respond.mock.calls).toMatchSnapshot();
 });
