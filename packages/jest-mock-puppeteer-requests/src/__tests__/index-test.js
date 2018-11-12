@@ -34,7 +34,11 @@ const shouldMockRequest = request => {
 };
 
 const getResponse = jest.fn(() => RESPONSE_DATA);
-const saveMock = jest.fn(() => SAVED_MOCK_DATA);
+
+const saveMock = jest.fn(() => ({
+  mocks: SAVED_MOCK_DATA,
+  counters: {},
+}));
 
 let onResponse = null;
 let onRequest = null;
@@ -103,7 +107,7 @@ it('As a developer, when I execute it in update mode, it should save real reques
 
   onClose();
 
-  expect(fs.writeFileSync.mock.calls[0]).toMatchSnapshot();
+  expect(fs.writeFileSync.mock.calls).toMatchSnapshot();
 });
 
 it('As a developer, when I execute it in mock mode, it should replace real request via mocks.', async () => {
@@ -128,5 +132,6 @@ it('As a developer, when I execute it in mock mode, it should replace real reque
 
   onClose();
 
-  expect(fs.writeFileSync.mock.calls[0]).toMatchSnapshot();
+  expect(request.continue).not.toHaveBeenCalled();
+  expect(request.respond.mock.calls).toMatchSnapshot();
 });

@@ -14,15 +14,21 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
     const requestMocksFileName = kebabCase(`${path.basename(testPath)}-${currentTestName}-mock.json`);
     const requestMocksPath = path.join(requestMocksDir, requestMocksFileName);
 
-    const loadedMocks = fs.existsSync(requestMocksPath) ? JSON.parse(fs.readFileSync(requestMocksPath, 'utf8')) : {};
+    const mocks =
+      snapshotState._updateSnapshot !== 'all' && fs.existsSync(requestMocksPath)
+        ? JSON.parse(fs.readFileSync(requestMocksPath, 'utf8'))
+        : {};
 
-    let currentMocks = {};
+    let currentState = {
+      mocks,
+      counters: {},
+    };
 
     await page.setRequestInterception(true);
 
     const handleRequest = request => {
       if (snapshotState._updateSnapshot !== 'all' && shouldMockRequest(request)) {
-        const response = getResponse(loadedMocks, request);
+        const response = getResponse(currentState, request);
 
         if (response) {
           return request.respond(response);
@@ -38,7 +44,7 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
       const request = await response.request();
 
       if (snapshotState._updateSnapshot === 'all' && shouldMockRequest(request)) {
-        currentMocks = await saveMock(currentMocks, response);
+        currentState = await saveMock(currentState, response);
       }
     };
 
@@ -50,7 +56,7 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
       if (snapshotState._updateSnapshot === 'all') {
         mkdirp.sync(requestMocksDir);
 
-        fs.writeFileSync(requestMocksPath, JSON.stringify(currentMocks, null, 2));
+        fs.writeFileSync(requestMocksPath, JSON.stringify(currentState.mocks, null, 2));
       }
 
       page.removeAllListeners('request');
