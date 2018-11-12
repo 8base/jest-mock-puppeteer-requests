@@ -1,6 +1,6 @@
 {
   "name": "jest-mock-puppeteer-requests-graphql",
-  "version": "0.0.1",
+  "version": "0.0.1-test",
   "main": "lib/index.js",
   "module": "src/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^23.6.0",
     "jest": "^23.6.0",
-    "jest-mock-puppeteer-requests": "^0.0.1"
+    "jest-mock-puppeteer-requests": "^0.0.1-test"
   },
   "jest": {
     "collectCoverageFrom": [
