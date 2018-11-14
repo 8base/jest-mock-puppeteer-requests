@@ -13,6 +13,10 @@ export const getResponse = (state, request) => {
 
       const mock = R.path([req.operationName, index], state.mocks);
 
+      if (!mock) {
+        return null;
+      }
+
       expect(R.omit(['index'], mock.request)).toEqual(req);
 
       return mock.response;
