@@ -3,6 +3,8 @@ import * as R from 'ramda';
 export const getResponse = (state, request) => {
   let requestData = JSON.parse(request.postData());
 
+  const isBatchedRequest = Array.isArray(requestData);
+
   requestData = Array.isArray(requestData) ? requestData : [requestData];
 
   if (requestData.every(({ operationName }) => state.mocks[operationName])) {
@@ -16,7 +18,7 @@ export const getResponse = (state, request) => {
       return mock.response;
     });
 
-    if (!Array.isArray(requestData)) {
+    if (!isBatchedRequest) {
       response = response[0];
     }
 
