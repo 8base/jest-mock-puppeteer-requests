@@ -53,7 +53,7 @@ export const saveMock = async (state, response) => {
     state.mocks[operationName] = state.mocks[operationName] = [
       ...state.mocks[operationName],
       {
-        request,
+        request: R.omit(['index'], request),
       },
     ];
   });
