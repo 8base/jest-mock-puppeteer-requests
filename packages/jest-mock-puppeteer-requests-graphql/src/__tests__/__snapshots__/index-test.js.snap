@@ -15,7 +15,7 @@ exports[`As a developer, when I execute it in mock mode, it should replace real 
 Array [
   Array [
     Object {
-      "body": "[{\\"data\\":{\\"field\\":\\"foo\\"}}]",
+      "body": "{\\"data\\":{\\"field\\":\\"foo\\"}}",
       "content": "application/json",
       "headers": Object {
         "Access-Control-Allow-Origin": "*",
@@ -33,8 +33,7 @@ Array [
     {
       \\"request\\": {
         \\"operationName\\": \\"QueryName\\",
-        \\"query\\": \\"query { field }\\",
-        \\"index\\": 0
+        \\"query\\": \\"query { field }\\"
       },
       \\"response\\": {
         \\"data\\": {
