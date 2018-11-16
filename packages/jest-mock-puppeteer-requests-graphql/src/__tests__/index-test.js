@@ -80,15 +80,13 @@ afterEach(() => {
 
 it('As a developer, when I execute it in update mode, it should save real request to the mocks.', async () => {
   const toMatchPuppeteerRequestMocks = configureToMatchPuppeteerRequestMocks({
+    shouldUpdateMocks: () => true,
     shouldMockRequest,
     getResponse,
     saveMock,
   }).bind({
     testPath: 'qwer',
     currentTestName: 'testName',
-    snapshotState: {
-      _updateSnapshot: 'all',
-    },
   });
 
   await toMatchPuppeteerRequestMocks(page);
@@ -112,15 +110,13 @@ it('As a developer, when I execute it in mock mode, it should replace real reque
   fs.readFileSync.mockReturnValueOnce(JSON.stringify(SAVED_MOCK_DATA));
 
   const toMatchPuppeteerRequestMocks = configureToMatchPuppeteerRequestMocks({
+    shouldUpdateMocks: () => false,
     shouldMockRequest,
     getResponse,
     saveMock,
   }).bind({
     testPath: 'qwer',
     currentTestName: 'testName',
-    snapshotState: {
-      _updateSnapshot: false,
-    },
   });
 
   global.expect = jest.fn(() => ({

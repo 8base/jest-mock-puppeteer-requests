@@ -6,16 +6,16 @@ import { kebabCase } from './utils';
 
 const REQUEST_MOCKS_DIR = '__request_mocks__';
 
-const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse, saveMock }) =>
+const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRequest, getResponse, saveMock }) =>
   async function(page) {
-    const { testPath, currentTestName, snapshotState } = this;
+    const { testPath, currentTestName } = this;
 
     const requestMocksDir = path.join(path.dirname(testPath), REQUEST_MOCKS_DIR);
     const requestMocksFileName = kebabCase(`${path.basename(testPath)}-${currentTestName}-mock.json`);
     const requestMocksPath = path.join(requestMocksDir, requestMocksFileName);
 
     const mocks =
-      snapshotState._updateSnapshot !== 'all' && fs.existsSync(requestMocksPath)
+      !shouldUpdateMocks() && fs.existsSync(requestMocksPath)
         ? JSON.parse(fs.readFileSync(requestMocksPath, 'utf8'))
         : {};
 
@@ -27,7 +27,7 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
     await page.setRequestInterception(true);
 
     const handleRequest = request => {
-      if (snapshotState._updateSnapshot !== 'all' && shouldMockRequest(request)) {
+      if (!shouldUpdateMocks() && shouldMockRequest(request)) {
         const response = getResponse(currentState, request);
 
         if (response) {
@@ -43,7 +43,7 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
     const handleResponse = async response => {
       const request = await response.request();
 
-      if (snapshotState._updateSnapshot === 'all' && shouldMockRequest(request)) {
+      if (shouldUpdateMocks() && shouldMockRequest(request)) {
         currentState = await saveMock(currentState, response);
       }
     };
@@ -53,7 +53,7 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldMockRequest, getResponse,
     page.on('response', handleResponse);
 
     page.once('close', async () => {
-      if (snapshotState._updateSnapshot === 'all') {
+      if (shouldUpdateMocks()) {
         mkdirp.sync(requestMocksDir);
 
         fs.writeFileSync(requestMocksPath, JSON.stringify(currentState.mocks, null, 2));
