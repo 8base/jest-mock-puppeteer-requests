@@ -40,11 +40,17 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
       request.continue();
     };
 
+    const saveMockPromises = [];
+
     const handleResponse = async response => {
       const request = await response.request();
 
       if (shouldUpdateMocks() && shouldMockRequest(request)) {
-        currentState = await saveMock(currentState, response);
+        const saveMockPromise = saveMock(currentState, response);
+
+        saveMockPromises.push(saveMockPromise);
+
+        currentState = await saveMockPromise;
       }
     };
 
@@ -62,6 +68,17 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
       page.removeAllListeners('request');
       page.removeAllListeners('response');
     });
+
+    const defaultPageClose = page.close.bind(page);
+
+    page.close = async () => {
+      await Promise.all(saveMockPromises);
+
+      // TODO: remove this dirty hack
+      await (time => new Promise(resolve => setTimeout(resolve, time)))(1000);
+
+      await defaultPageClose();
+    };
 
     return { pass: true };
   };

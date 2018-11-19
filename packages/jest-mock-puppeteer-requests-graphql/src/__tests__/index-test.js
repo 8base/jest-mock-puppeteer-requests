@@ -24,10 +24,7 @@ const RESPONSE_DATA = {
 const SAVED_MOCK_DATA = {
   [REQUEST_DATA.operationName]: [
     {
-      request: {
-        ...REQUEST_DATA,
-        index: 0,
-      },
+      request: REQUEST_DATA,
       response: RESPONSE_DATA,
     },
   ],
@@ -59,16 +56,13 @@ beforeEach(() => {
       }
     }),
     removeAllListeners: jest.fn(),
+    close: jest.fn(),
   };
 
   request = {
     method: () => 'POST',
     url: () => API_ENDPOINT,
-    postData: () =>
-      JSON.stringify({
-        operationName: 'QueryName',
-        query: 'query { field }',
-      }),
+    postData: () => JSON.stringify(REQUEST_DATA),
     continue: jest.fn(),
     respond: jest.fn(),
   };
