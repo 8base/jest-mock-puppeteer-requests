@@ -9,6 +9,7 @@
     "watch": "NODE_ENV=development babel src -d lib --watch --ignore __tests__"
   },
   "dependencies": {
+    "is-plain-object": "^2.0.4",
     "mkdirp": "^0.5.1",
     "ramda": "^0.25.0",
     "rimraf": "^2.6.2"

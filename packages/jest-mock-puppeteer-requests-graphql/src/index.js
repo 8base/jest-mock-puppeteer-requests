@@ -1,4 +1,20 @@
 import * as R from 'ramda';
+import isPlainObject from 'is-plain-object';
+
+const PROPERTY_MATCHERS = {
+  '<ANY_NUMBER>': expect.any(Number),
+  '<ANY_STRING>': expect.any(String),
+};
+
+const replacePropertyMatchers = R.mapObjIndexed(value => {
+  if (R.has(value, PROPERTY_MATCHERS)) {
+    value = PROPERTY_MATCHERS[value];
+  } else if (isPlainObject(value)) {
+    value = replacePropertyMatchers(value);
+  }
+
+  return value;
+});
 
 export const getResponse = (state, request) => {
   let requestData = JSON.parse(request.postData());
@@ -17,7 +33,7 @@ export const getResponse = (state, request) => {
         return null;
       }
 
-      expect(R.omit(['index'], mock.request)).toEqual(req);
+      expect(req).toEqual(replacePropertyMatchers(mock.request));
 
       return mock.response;
     });
