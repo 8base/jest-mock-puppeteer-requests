@@ -24,33 +24,36 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
       counters: {},
     };
 
+    let handledRequests = 0;
+    let savedRequests = 0;
+
     await page.setRequestInterception(true);
 
     const handleRequest = request => {
-      if (!shouldUpdateMocks() && shouldMockRequest(request)) {
-        const response = getResponse(currentState, request);
-
-        if (response) {
-          return request.respond(response);
+      if (shouldMockRequest(request)) {
+        if (shouldUpdateMocks()) {
+          handledRequests++;
         } else {
-          console.warn(`Can't find mock response for request: ${request.postData()}`);
+          const response = getResponse(currentState, request);
+
+          if (response) {
+            return request.respond(response);
+          } else {
+            console.warn(`Can't find mock response for request: ${request.postData()}`);
+          }
         }
       }
 
       request.continue();
     };
 
-    const saveMockPromises = [];
-
     const handleResponse = async response => {
       const request = await response.request();
 
       if (shouldUpdateMocks() && shouldMockRequest(request)) {
-        const saveMockPromise = saveMock(currentState, response);
+        currentState = await saveMock(currentState, response);
 
-        saveMockPromises.push(saveMockPromise);
-
-        currentState = await saveMockPromise;
+        savedRequests++;
       }
     };
 
@@ -71,11 +74,24 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
 
     const defaultPageClose = page.close.bind(page);
 
-    page.close = async () => {
-      await Promise.all(saveMockPromises);
+    const waitRequests = () =>
+      new Promise(resolve => {
+        const checkSavedRequests = setInterval(() => {
+          if (handledRequests === savedRequests) {
+            resolve();
 
-      // TODO: remove this dirty hack
-      await (time => new Promise(resolve => setTimeout(resolve, time)))(1000);
+            clearInterval(checkSavedRequests);
+          }
+        }, 1000);
+      });
+
+    page.close = async () => {
+      if (shouldUpdateMocks()) {
+        await waitRequests();
+
+        // TODO: remove this dirty hack
+        await (time => new Promise(resolve => setTimeout(resolve, time)))(1000);
+      }
 
       await defaultPageClose();
     };
