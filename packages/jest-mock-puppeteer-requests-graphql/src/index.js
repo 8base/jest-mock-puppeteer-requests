@@ -6,17 +6,21 @@ const PROPERTY_MATCHERS = {
   '<ANY_STRING>': expect.any(String),
 };
 
-const replacePropertyMatchers = R.mapObjIndexed(value => {
-  if (R.has(value, PROPERTY_MATCHERS)) {
-    value = PROPERTY_MATCHERS[value];
-  } else if (isPlainObject(value)) {
-    value = replacePropertyMatchers(value);
-  }
+const replacePropertyMatchers = (request, options) =>
+  R.pipe(
+    R.mergeDeepWith(newValue => newValue, R.propOr({}, request.operationName, options)),
+    R.mapObjIndexed(value => {
+      if (R.has(value, PROPERTY_MATCHERS)) {
+        value = PROPERTY_MATCHERS[value];
+      } else if (isPlainObject(value)) {
+        value = replacePropertyMatchers(value);
+      }
 
-  return value;
-});
+      return value;
+    })
+  )(request);
 
-export const getResponse = (state, request) => {
+export const getResponse = (state, request, options = {}) => {
   let requestData = JSON.parse(request.postData());
 
   const isBatchedRequest = Array.isArray(requestData);
@@ -33,7 +37,7 @@ export const getResponse = (state, request) => {
         return null;
       }
 
-      expect(req).toEqual(replacePropertyMatchers(mock.request));
+      expect(req).toEqual(replacePropertyMatchers(mock.request, options));
 
       return mock.response;
     });

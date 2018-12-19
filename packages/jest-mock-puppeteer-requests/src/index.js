@@ -7,7 +7,7 @@ import { kebabCase } from './utils';
 const REQUEST_MOCKS_DIR = '__request_mocks__';
 
 const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRequest, getResponse, saveMock }) =>
-  async function(page) {
+  async function(page, options) {
     const { testPath, currentTestName } = this;
 
     const requestMocksDir = path.join(path.dirname(testPath), REQUEST_MOCKS_DIR);
@@ -34,11 +34,12 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
         if (shouldUpdateMocks()) {
           handledRequests++;
         } else {
-          const response = getResponse(currentState, request);
+          const response = getResponse(currentState, request, options);
 
           if (response) {
             return request.respond(response);
           } else {
+            // eslint-disable-next-line no-console
             console.warn(`Can't find mock response for request: ${request.postData()}`);
           }
         }

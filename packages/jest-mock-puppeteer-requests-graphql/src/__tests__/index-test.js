@@ -13,6 +13,9 @@ const API_ENDPOINT = 'https://api.8base.com';
 const REQUEST_DATA = {
   operationName: 'QueryName',
   query: 'query { field }',
+  variables: {
+    value: 'b1b2b320-c017-4dcd-97ca-0e430f1cd047',
+  },
 };
 
 const RESPONSE_DATA = {
@@ -113,8 +116,10 @@ it('As a developer, when I execute it in mock mode, it should replace real reque
     currentTestName: 'testName',
   });
 
+  const toEqual = jest.fn();
+
   global.expect = jest.fn(() => ({
-    toEqual: jest.fn(),
+    toEqual,
   }));
 
   await toMatchPuppeteerRequestMocks(page);
@@ -128,6 +133,50 @@ it('As a developer, when I execute it in mock mode, it should replace real reque
   global.expect = intialExpect;
 
   expect(expectCalls.mock.calls).toMatchSnapshot();
+  expect(toEqual.mock.calls).toMatchSnapshot();
+
+  expect(request.continue).not.toHaveBeenCalled();
+  expect(request.respond.mock.calls).toMatchSnapshot();
+});
+
+it('As a developer, when I execute it in mock mode, it should replace real request via mutated mocks.', async () => {
+  fs.existsSync.mockReturnValueOnce(true);
+  fs.readFileSync.mockReturnValueOnce(JSON.stringify(SAVED_MOCK_DATA));
+
+  const toMatchPuppeteerRequestMocks = configureToMatchPuppeteerRequestMocks({
+    shouldUpdateMocks: () => false,
+    shouldMockRequest,
+    getResponse,
+    saveMock,
+  }).bind({
+    testPath: 'qwer',
+    currentTestName: 'testName',
+  });
+
+  const toEqual = jest.fn();
+
+  global.expect = jest.fn(() => ({
+    toEqual,
+  }));
+
+  await toMatchPuppeteerRequestMocks(page, {
+    [REQUEST_DATA.operationName]: {
+      variables: {
+        value: '<ANY_STRING>',
+      },
+    },
+  });
+
+  await onRequest(request);
+
+  onClose();
+
+  const expectCalls = global.expect;
+
+  global.expect = intialExpect;
+
+  expect(expectCalls.mock.calls).toMatchSnapshot();
+  expect(toEqual.mock.calls).toMatchSnapshot();
 
   expect(request.continue).not.toHaveBeenCalled();
   expect(request.respond.mock.calls).toMatchSnapshot();
