@@ -6,12 +6,71 @@ Array [
     Object {
       "operationName": "QueryName",
       "query": "query { field }",
+      "variables": Object {
+        "value": "b1b2b320-c017-4dcd-97ca-0e430f1cd047",
+      },
     },
   ],
 ]
 `;
 
 exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 2`] = `
+Array [
+  Array [
+    Object {
+      "operationName": "QueryName",
+      "query": "query { field }",
+      "variables": Object {
+        "value": "b1b2b320-c017-4dcd-97ca-0e430f1cd047",
+      },
+    },
+  ],
+]
+`;
+
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mocks. 3`] = `
+Array [
+  Array [
+    Object {
+      "body": "{\\"data\\":{\\"field\\":\\"foo\\"}}",
+      "content": "application/json",
+      "headers": Object {
+        "Access-Control-Allow-Origin": "*",
+      },
+    },
+  ],
+]
+`;
+
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mutated mocks. 1`] = `
+Array [
+  Array [
+    Object {
+      "operationName": "QueryName",
+      "query": "query { field }",
+      "variables": Object {
+        "value": "b1b2b320-c017-4dcd-97ca-0e430f1cd047",
+      },
+    },
+  ],
+]
+`;
+
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mutated mocks. 2`] = `
+Array [
+  Array [
+    Object {
+      "operationName": "QueryName",
+      "query": "query { field }",
+      "variables": Object {
+        "value": Any<String>,
+      },
+    },
+  ],
+]
+`;
+
+exports[`As a developer, when I execute it in mock mode, it should replace real request via mutated mocks. 3`] = `
 Array [
   Array [
     Object {
@@ -33,7 +92,10 @@ Array [
     {
       \\"request\\": {
         \\"operationName\\": \\"QueryName\\",
-        \\"query\\": \\"query { field }\\"
+        \\"query\\": \\"query { field }\\",
+        \\"variables\\": {
+          \\"value\\": \\"b1b2b320-c017-4dcd-97ca-0e430f1cd047\\"
+        }
       },
       \\"response\\": {
         \\"data\\": {
