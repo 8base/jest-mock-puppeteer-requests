@@ -1,0 +1,16 @@
+{
+  "null": [
+    {
+      "request": {
+        "operationName": null,
+        "variables": {},
+        "query": "{\n  companyName\n}\n"
+      },
+      "response": {
+        "data": {
+          "companyName": "8base"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,4 @@
+{
+  "setupFiles": ["./setup.js"],
+  "setupFilesAfterEnv": ["./setupTestFramework.js"]
+}

@@ -1,12 +1,9 @@
 {
   "name": "jest-mock-puppeteer-requests-graphql",
   "version": "0.0.4",
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "src/index.js",
   "scripts": {
-    "build": "NODE_ENV=production babel src -d lib --ignore __tests__",
-    "test": "jest",
-    "watch": "NODE_ENV=development babel src -d lib --watch --ignore __tests__"
+    "test": "jest"
   },
   "dependencies": {
     "is-plain-object": "^2.0.4",
@@ -15,10 +12,6 @@
     "rimraf": "^2.6.2"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.6.0",
-    "babel-preset-env": "^1.7.0",
     "jest": "^23.6.0",
     "jest-mock-puppeteer-requests": "^0.0.4"
   },

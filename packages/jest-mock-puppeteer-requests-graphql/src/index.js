@@ -1,5 +1,5 @@
-import * as R from 'ramda';
-import isPlainObject from 'is-plain-object';
+const R = require('ramda');
+const isPlainObject = require('is-plain-object');
 
 const PROPERTY_MATCHERS = {
   '<ANY_NUMBER>': expect.any(Number),
@@ -20,7 +20,7 @@ const replacePropertyMatchers = (request, options) =>
     })
   )(request);
 
-export const getResponse = (state, request, options = {}) => {
+const getResponse = (state, request, options = {}) => {
   let requestData = JSON.parse(request.postData());
 
   const isBatchedRequest = Array.isArray(requestData);
@@ -56,7 +56,7 @@ export const getResponse = (state, request, options = {}) => {
   }
 };
 
-export const saveMock = async (state, response) => {
+const saveMock = async (state, response) => {
   const request = await response.request();
 
   let requestData = JSON.parse(request.postData());
@@ -90,3 +90,5 @@ export const saveMock = async (state, response) => {
 
   return state;
 };
+
+module.exports = { getResponse, saveMock };

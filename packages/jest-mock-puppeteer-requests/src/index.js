@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
-import mkdirp from 'mkdirp';
+const fs = require('fs');
+const path = require('path');
+const mkdirp = require('mkdirp');
 
-import { kebabCase } from './utils';
+const { kebabCase } = require('./utils');
 
 const REQUEST_MOCKS_DIR = '__request_mocks__';
 
@@ -100,4 +100,4 @@ const configureToMatchPuppeteerRequestMocks = ({ shouldUpdateMocks, shouldMockRe
     return { pass: true };
   };
 
-export { configureToMatchPuppeteerRequestMocks };
+module.exports = { configureToMatchPuppeteerRequestMocks };

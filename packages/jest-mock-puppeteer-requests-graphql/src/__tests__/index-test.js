@@ -1,6 +1,6 @@
-import { configureToMatchPuppeteerRequestMocks } from 'jest-mock-puppeteer-requests';
+const { configureToMatchPuppeteerRequestMocks } = require('jest-mock-puppeteer-requests');
 
-import { getResponse, saveMock } from '../';
+const { getResponse, saveMock } = require('../');
 
 jest.mock('fs');
 
