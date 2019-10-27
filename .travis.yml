@@ -9,8 +9,10 @@ install:
 - lerna bootstrap
 - lerna run build
 script:
-- yarn eslint
 - yarn test
+- (cd example && yarn build)
+- (cd example && PORT=3000 yarn serve &)
+- (cd example && yarn e2e --verbose)
 deploy:
   provider: script
   skip_cleanup: true

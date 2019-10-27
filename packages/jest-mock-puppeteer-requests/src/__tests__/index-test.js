@@ -1,4 +1,4 @@
-import { configureToMatchPuppeteerRequestMocks } from '../';
+const { configureToMatchPuppeteerRequestMocks } = require('../');
 
 jest.mock('fs');
 
