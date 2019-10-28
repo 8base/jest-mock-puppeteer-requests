@@ -15,6 +15,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "e2e": "jest --config e2e/config.json",
+    "e2e:update": "E2E_UPDATE_REQUEST_MOCKS=true jest --config e2e/config.json",
+    "e2e:live": "E2E_USE_LIVE_REQUESTS=true jest --config e2e/config.json",
     "serve": "serve -s build",
     "eject": "react-scripts eject"
   },

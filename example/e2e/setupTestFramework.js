@@ -5,6 +5,8 @@ const shouldMockRequest = (request) => (
   request.method() === 'POST'
   &&
   request.url().indexOf(process.env.REACT_APP_SERVER_URL) !== -1
+  &&
+  process.env.E2E_USE_LIVE_REQUESTS !== 'true'
 );
 
 const toMatchPuppeteerRequestMocks = configureToMatchPuppeteerRequestMocks({
@@ -13,7 +15,5 @@ const toMatchPuppeteerRequestMocks = configureToMatchPuppeteerRequestMocks({
   getResponse,
   saveMock,
 });
-
-console.log(process.env);
 
 expect.extend({ toMatchPuppeteerRequestMocks });

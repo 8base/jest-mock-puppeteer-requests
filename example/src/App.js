@@ -5,7 +5,7 @@ import logo from './logo.svg';
 import './App.css';
 
 function App() {
-  const { data, loading } = useQuery(gql`query { companyName }`);
+  const { data, loading } = useQuery(gql`query CompanyName { companyName }`);
 
   return (
     <div className="App">

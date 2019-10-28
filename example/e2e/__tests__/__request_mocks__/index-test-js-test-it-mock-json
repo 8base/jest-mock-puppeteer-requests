@@ -1,10 +1,10 @@
 {
-  "null": [
+  "CompanyName": [
     {
       "request": {
-        "operationName": null,
+        "operationName": "CompanyName",
         "variables": {},
-        "query": "{\n  companyName\n}\n"
+        "query": "query CompanyName {\n  companyName\n}\n"
       },
       "response": {
         "data": {
